@@ -18,7 +18,7 @@
 (defmethod render :form
   [form params]
   (if-let [fields (:fields form)]
-    [:form {:method (:method form :post)}
+    [:form {:method (:method form :post) :action (:action form)}
      (when-let [label (:label form)] [:h2 label])
      (when-let [description (:description form)] [:p description])
      (for [field fields]

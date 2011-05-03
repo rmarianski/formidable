@@ -12,7 +12,7 @@
            (render {:type :submit :name :submit} nil))))
 
 (deftest render-form-no-values
-  (is (= [:form {:method :post} nil nil
+  (is (= [:form {:method :post :action nil} nil nil
           '([:div nil [:span.required]
              ([:label "Mcfly"] nil
                 [:input {:type :text, :name :mcfly, :value ""}])])
@@ -23,7 +23,7 @@
                    {}))))
 
 (deftest render-form-values
-  (is (= [:form {:method :post} nil nil
+  (is (= [:form {:method :post :action nil} nil nil
           '([:div nil [:span.required]
              ([:label "Mcfly"] nil
                 [:input {:type :text, :name :mcfly, :value "george"}])])
