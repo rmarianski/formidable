@@ -41,32 +41,3 @@
      (throw (IllegalArgumentException. "render form: no fields"))))
 
 (defmethod render nil [_ _] nil)
-
-
-(deftype Invalid [message])
-
-(defn invalid? [value] (instance? Invalid value))
-
-(defmulti validate :type)
-
-(defmethod validate :default [field value] value)
-
-(defn- validate-fields [fields values]
-  (vec
-   (for [field fields]
-     (let [value (get values (:name field))
-           required (:required field true)]
-       (if (and required
-                (or
-                 (nil? value)
-                 (and (seqable? value) (empty? value))))
-         (assoc field :error "Missing required field")
-         (let [validator (:validator field validate)
-               validation-result (validator field value)]
-           (if (invalid? validation-result)
-             (assoc field :error (.message validation-result))
-             field)))))))
-
-(defmethod validate :form
-  [form values]
-  (update-in form [:fields] validate-fields values))
